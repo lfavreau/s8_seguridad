@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animales</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <div>
+        <h1>Animales rescatados</h1>
+        <div class="role">
+            Usuario: <span sec:authentication="name"></span>
+            <span th:text="' | Rol backend: ' + ${session.BACKEND_ROLE}"></span>
+        </div>
+    </div>
+    <form th:action="@{/logout}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button type="submit">Cerrar sesion</button>
+    </form>
+</header>
+
+<main class="container">
+    <div class="notice" th:if="${backendError}">
+        No fue posible completar la operacion contra el backend. Verifica que el backend y MySQL esten levantados.
+    </div>
+
+    <div class="actions" sec:authorize="hasAnyRole('ADMIN','GESTOR')">
+        <a class="button" th:href="@{/animales/nuevo}">Crear animal</a>
+        <a class="button secondary" th:href="@{/home}">Home</a>
+    </div>
+
+    <p class="meta" th:if="${#lists.isEmpty(animales)}">No hay animales registrados.</p>
+
+    <section class="grid" th:if="${!#lists.isEmpty(animales)}">
+        <article class="card" th:each="animal : ${animales}">
+            <h2 th:text="${animal.nombre}">Nombre</h2>
+            <p class="meta">
+                <span th:text="${animal.especie}">Especie</span>
+                <span> | </span>
+                <span th:text="${animal.edad}">Edad</span>
+            </p>
+            <p><strong>Estado:</strong> <span th:text="${animal.estado}">Estado</span></p>
+            <p th:text="${animal.descripcion}">Descripcion</p>
+
+            <div class="actions">
+                <a class="button secondary" sec:authorize="hasAnyRole('ADMIN','GESTOR')"
+                   th:href="@{/animales/editar/{id}(id=${animal.id})}">Editar</a>
+
+                <form class="inline-form" sec:authorize="hasRole('ADMIN')"
+                      th:action="@{/animales/eliminar/{id}(id=${animal.id})}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <button class="danger" type="submit">Eliminar</button>
+                </form>
+            </div>
+        </article>
+    </section>
+</main>
+</body>
+</html>

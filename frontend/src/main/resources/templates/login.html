@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Unidos por Los Animales</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main class="login-shell">
+    <section class="panel">
+        <h1>Unidos por Los Animales</h1>
+        <p class="meta">Ingreso seguro a la aplicacion</p>
+
+        <div class="notice" th:if="${param.error}">Usuario o clave incorrectos.</div>
+        <div class="notice" th:if="${param.backendError}">No fue posible autenticar contra el backend.</div>
+        <div class="notice" th:if="${param.expired}">La sesion no tiene un token JWT valido.</div>
+        <div class="notice success" th:if="${param.logout}">Sesion cerrada correctamente.</div>
+
+        <form th:action="@{/login}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <div class="field">
+                <label for="username">Usuario</label>
+                <input id="username" name="username" autocomplete="username" required>
+            </div>
+            <div class="field">
+                <label for="password">Clave</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required>
+            </div>
+            <button type="submit">Ingresar</button>
+        </form>
+
+        <p class="meta">Usuarios: admin/admin123, gestor/gestor123, visitante/visitante123.</p>
+    </section>
+</main>
+</body>
+</html>

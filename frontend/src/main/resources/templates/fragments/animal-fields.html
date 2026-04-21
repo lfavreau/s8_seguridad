@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="fields">
+    <div class="field">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" th:field="*{nombre}" required>
+    </div>
+    <div class="field">
+        <label for="especie">Especie</label>
+        <input id="especie" th:field="*{especie}" required>
+    </div>
+    <div class="field">
+        <label for="edad">Edad</label>
+        <input id="edad" th:field="*{edad}" required>
+    </div>
+    <div class="field">
+        <label for="estado">Estado</label>
+        <input id="estado" th:field="*{estado}" required>
+    </div>
+    <div class="field">
+        <label for="descripcion">Descripcion</label>
+        <textarea id="descripcion" th:field="*{descripcion}" required></textarea>
+    </div>
+</div>
+</body>
+</html>

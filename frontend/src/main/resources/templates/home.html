@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <h1>Unidos por Los Animales</h1>
+    <a class="button" th:href="@{/animales}">Gestionar animales</a>
+</header>
+<main class="container">
+    <div class="notice" th:if="${backendError}">
+        No fue posible cargar datos desde el backend.
+    </div>
+    <section class="grid">
+        <article class="card" th:each="animal : ${animales}">
+            <h2 th:text="${animal.nombre}">Nombre</h2>
+            <p class="meta" th:text="${animal.especie + ' | ' + animal.edad}">Detalle</p>
+            <p><strong>Estado:</strong> <span th:text="${animal.estado}">Estado</span></p>
+            <p th:text="${animal.descripcion}">Descripcion</p>
+        </article>
+    </section>
+</main>
+</body>
+</html>
