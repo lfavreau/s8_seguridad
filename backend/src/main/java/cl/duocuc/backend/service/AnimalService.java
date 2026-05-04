@@ -2,7 +2,9 @@ package cl.duocuc.backend.service;
 
 import cl.duocuc.backend.entity.Animal;
 import cl.duocuc.backend.repository.AnimalRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,7 +22,8 @@ public class AnimalService {
     }
 
     public Animal findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Animal no encontrado"));
+        return repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal no encontrado"));
     }
 
     public Animal save(Animal animal) {
@@ -38,6 +41,7 @@ public class AnimalService {
     }
 
     public void delete(Long id) {
+        findById(id);
         repository.deleteById(id);
     }
 }

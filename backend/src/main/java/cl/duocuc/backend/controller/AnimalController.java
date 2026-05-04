@@ -19,6 +19,11 @@ public class AnimalController {
         this.animalService = animalService;
     }
 
+    @GetMapping("/api/public/animales")
+    public ResponseEntity<List<Animal>> getPublicAnimals() {
+        return ResponseEntity.ok(animalService.findAll());
+    }
+
     @GetMapping("/api/private/animales")
     @PreAuthorize("hasAnyRole('ADMIN', 'GESTOR', 'VISITANTE')")
     public ResponseEntity<List<Animal>> getPrivateAnimals() {
